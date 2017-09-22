@@ -1,13 +1,13 @@
 # '''
 # Manpower Calculator
 # Take the input from a user for multiple projects (jobs) and calculate the required manpower over time
-# Entry will be gui-based, with output as either text or graph, filterable by job if necessary
+# Will be used to visualize employee load over time, and calculate potential overtime costs
 # '''
 
 from datetime import datetime, date, timedelta
 from math import ceil
 
-# values input by user per job
+# values input by user per job (this will be replaced by input functions)
 project = []
 project_name = "Test Job 1"
 project_milestone1 = "Grid"
@@ -20,6 +20,7 @@ max_crew_size = 4
 manpower_pool = 10
 
 # starting values & duration calculation
+#TODO put this into a function or method
 duration = int((end_date - start_date).days + 1)
 weekdays = 0
 saturdays = 0
