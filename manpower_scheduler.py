@@ -19,29 +19,30 @@ max_crew_size = 4
 # value taken from total available employees. either by some database or input by user
 manpower_pool = 10
 
-# starting values & duration calculation
-#TODO put this into a function or method
+# Calculate duration in total days
 duration = int((end_date - start_date).days + 1)
-weekdays = 0
-saturdays = 0
-sundays = 0
 
 def daterange(start_date, end_date):
 	for date in range(int((end_date - start_date).days) + 1):
 		yield start_date + timedelta(date)
-		
-for single_date in daterange(start_date,end_date):
-	if single_date.weekday() == 5:
-		saturdays = saturdays + 1
-	elif single_date.weekday() == 6:
-		sundays = sundays + 1
-	else:
-		weekdays = weekdays + 1
 
-req_manpower = ceil(estimated_hours/8/weekdays)
+def find_working_days(start_date,end_date):
+	weekdays = 0
+	saturdays = 0
+	sundays = 0
+	for single_date in daterange(start_date,end_date):
+		if single_date.weekday() == 5:
+			saturdays = saturdays + 1
+		elif single_date.weekday() == 6:
+			sundays = sundays + 1
+		else:
+			weekdays = weekdays + 1
+	return {"weekdays":weekdays,"saturdays":saturdays,"sundays":sundays}
+			
 
-print ("Weekdays: " + str(weekdays))
-print ("Saturdays: " + str(saturdays))
-print ("Sundays: " + str(sundays))
+working_days = find_working_days(start_date,end_date)	
+req_manpower = ceil(estimated_hours/8/working_days.get("weekdays"))
 
+print("From " + str(start_date) + " to " + str(end_date))
+print (working_days)
 print(str(req_manpower))
